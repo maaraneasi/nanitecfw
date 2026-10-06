@@ -22,7 +22,7 @@ on your computer.
 | **Shuffle** (main menu, 6th item): shuffle play over the whole card in one press | tested on device; the menu icon is new and not yet confirmed |
 | **Shuffle scope**: Shuffle Play covers the whole card instead of the current folder | tested on device |
 | **Unsupported tracks** are skipped without a popup; playback stops after 10 failures in a row | tested on device |
-| **Album Artists / Artists**: the stock Artists list, which groups by album artist, is renamed "Album Artists"; a new "Artists" list groups by each track's own artist | **not yet tested on device** |
+| **Album Artists / Artists**: the stock Artists list, which groups by album artist, is renamed "Album Artists"; a new "Artists" list groups by each track's own artist | tested on device |
 | `CFWLOG.TXT` in the card's root after each refresh: timings and counters | tested on device |
 
 About shows the custom version (6.0.x) instead of the stock version.
