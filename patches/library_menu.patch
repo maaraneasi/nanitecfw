@@ -1,0 +1,76 @@
+# Media Library menu (mod22, MedialibWin): 10 entries.
+#
+# The menu draws and dispatches from a table of 6-byte entries
+# {u16 0, u16 string id, u16 type} (stock: 8 entries at 0x0300e6bc, count
+# hard-coded). The dispatcher (FUN_0307957c) is called with the type of the
+# entry under the cursor; for types 1/3/4/5 it takes the browser window title
+# from title_table[type], and returning from the browser restores the cursor
+# from MusicTypeSelID (library_menu_42_mod22_restore.S maps it to a position).
+#
+# New table in unused zeros of mod22 data (0x0300e708..0x0300e8a7):
+#   pos 0 Now Playing (0x59, 0)    5 Albums (0x5c, 4)
+#       1 All Songs (0x5a, 1)      6 Genres (0x5d, 5)
+#       2 Favorites (0x61, 2)      7 Folder Navigation (0x5f, 0xa)
+#       3 Artists (0x85, 9)        8 Recent Albums (0x87, 7)
+#       4 Album Artists (0x86, 3)  9 Media Library Refresh (0x62, 6)
+# Types 7 and 9 are unused by the stock dispatcher; library_menu_40 handles them.
+22:0300e708:0000 5900 0000  0000 5a00 0100  0000 6100 0200  0000 8500 0900  0000 8600 0300
+22:0300e726:0000 5c00 0400  0000 5d00 0500  0000 5f00 0a00  0000 8700 0700  0000 6200 0600
+
+# Draw and dispatch use the new table (literal-pool pointers). Titles keep
+# the stock table (0x030799e8 unchanged), which is indexed by type.
+22:03079e74:08e70003
+22:0307a2f4:08e70003
+
+# Stock Artists groups by album artist (mod39 copies ALBUMARTIST over ARTIST):
+# title it "Album Artists" (stock table row 3 string id).
+22:0300e6d0:8600
+
+# Item count 8 -> 10.
+22:030794f4:0a21                # movs r1, #10   (menu state +0)
+22:03079560:c1f10a00            # rsb.w r0, r1, #10
+
+# Strings 0x85/0x86 ("Ensure Bluetooth Enabled/Disabled!", unused: no
+# Bluetooth hardware) -> "Artists" (stock 0x5b text) / "Album Artists".
+lang:85:zh-cn:u"艺术家"
+lang:85:zh-tw:u"藝術家"
+lang:85:en:u"Artists"
+lang:85:ja:u"アーティスト"
+lang:85:ko:u"아티스트"
+lang:85:fr:u"Artistes"
+lang:85:de:u"Künstler"
+lang:85:it:u"Artisti"
+lang:85:es:u"Artistas"
+lang:85:pt:u"Artistas"
+lang:85:ru:u"Исполнители"
+lang:85:sv:u"Artister"
+lang:85:th:u"ศิลปิน"
+lang:85:pl:u"Artyści"
+lang:85:da:u"Kunstnere"
+lang:85:nl:u"Artiesten"
+lang:85:el:u"Καλλιτέχνες"
+lang:85:cs:u"Umělci"
+lang:85:tr:u"Sanatçılar"
+lang:85:he:u"אומנים"
+lang:85:ar:u"الفنانون"
+lang:86:zh-cn:u"专辑艺术家"
+lang:86:zh-tw:u"專輯藝術家"
+lang:86:en:u"Album Artists"
+lang:86:ja:u"アルバムアーティスト"
+lang:86:ko:u"앨범 아티스트"
+lang:86:fr:u"Artistes d'album"
+lang:86:de:u"Albumkünstler"
+lang:86:it:u"Artisti album"
+lang:86:es:u"Artistas del álbum"
+lang:86:pt:u"Artistas do álbum"
+lang:86:ru:u"Исполнители альбомов"
+lang:86:sv:u"Albumartister"
+lang:86:th:u"ศิลปินอัลบั้ม"
+lang:86:pl:u"Wykonawcy albumów"
+lang:86:da:u"Albumkunstnere"
+lang:86:nl:u"Albumartiesten"
+lang:86:el:u"Καλλιτέχνες άλμπουμ"
+lang:86:cs:u"Interpreti alb"
+lang:86:tr:u"Albüm sanatçıları"
+lang:86:he:u"אמני אלבום"
+lang:86:ar:u"فنانو الألبوم"

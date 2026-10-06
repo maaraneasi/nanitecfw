@@ -1,0 +1,19 @@
+# Shuffle, part 2: Shuffle Play shuffles the whole card, not the current folder.
+#
+# mod33 (music service) treats play modes 0-3 (Repeat All, Loop Once,
+# Sequential, Shuffle) as folder-scoped unless "Folder Jumping Song" adds 4.
+# Playing from Folder Navigation with Shuffle therefore reshuffles one folder
+# forever (~100 tracks). The shuffle itself (lazy Fisher-Yates over the
+# playlist, mod33 0x03080512) is fine. Make mode 3 behave like mode 7.
+
+# "cmp r0,#2; it ne; cmpne r0,#3; beq <folder scope>" -> cmpne r0,#2
+33:03082968:02                  # MusicInit
+33:03083026:02                  # msg 0x113, folder navigation (type 99): old mode
+33:03083042:02
+33:03083060:02
+33:030830e4:02                  # msg 0x113, type 10
+33:03083100:02
+33:03083122:02
+
+# end of track: tbb by play mode, mode 3 -> whole-medium path 0x03081844 (as modes 4, 7)
+33:030817a9:4f

@@ -1,0 +1,8 @@
+# build output
+out/
+# firmware images: never commit FiiO's firmware
+*.IMG
+*.img
+__pycache__/
+.direnv/
+.DS_Store

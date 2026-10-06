@@ -1,0 +1,25 @@
+# Recent Albums: Media Library menu label (the menu entry itself is in
+# library_menu.patch, its dispatcher case in library_menu_40_mod22_dispatch.S).
+
+# String 0x87 ("Bluetooth Not Paired", unused: no Bluetooth hardware) -> label.
+lang:87:zh-cn:u"最近专辑"
+lang:87:zh-tw:u"最近專輯"
+lang:87:en:u"Recent Albums"
+lang:87:ja:u"最近のアルバム"
+lang:87:ko:u"최근 앨범"
+lang:87:fr:u"Albums récents"
+lang:87:de:u"Neueste Alben"
+lang:87:it:u"Album recenti"
+lang:87:es:u"Álbumes recientes"
+lang:87:pt:u"Álbuns recentes"
+lang:87:ru:u"Недавние альбомы"
+lang:87:sv:u"Senaste album"
+lang:87:th:u"อัลบั้มล่าสุด"
+lang:87:pl:u"Ostatnie albumy"
+lang:87:da:u"Seneste album"
+lang:87:nl:u"Recente albums"
+lang:87:el:u"Πρόσφατα άλμπουμ"
+lang:87:cs:u"Nedávná alba"
+lang:87:tr:u"Son albümler"
+lang:87:he:u"אלבומים אחרונים"
+lang:87:ar:u"الألبومات الأخيرة"

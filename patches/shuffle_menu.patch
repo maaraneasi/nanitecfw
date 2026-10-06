@@ -1,0 +1,46 @@
+# Shuffle, part 1: main-menu item (mod21, window 0).
+#
+# mod21 item table: 8-byte entries at 0x0300e6d8, string id at +6; 5 live
+# items plus an unused 6th entry at 0x0300e700. Icons: 20x16 1-bpp bitmaps via a
+# pointer table (literal at 0x0307a4d8, stock table 0x03004124 holds 5).
+
+# item 5: string 0x82 (was "Bluetooth Connecting...", no Bluetooth hardware)
+21:0300e704:00008200
+
+# item count 5 -> 6
+21:03079f70:0528                # right key: cmp r0, #5 (wrap to 0 above)
+21:03079f5e:0520                # left key on item 0: moveq r0, #5 (was strheq r2)
+21:03079f60:00bf                #   ... nop the beq so 5 is stored below
+21:0307a330:052a                # paint: draw item sel+1 if sel < 5
+21:0307a372:042a                # paint: draw item sel+2 if sel < 4
+21:0307a436:0528                # paint (icons): sel+1
+21:0307a450:0428                # paint (icons): sel+2
+
+# dispatcher FUN_03079b1e tbb: case 5 -> Media Library code (0x03079b4a);
+# shuffle_route (shuffle_10_mod21_cave.S) then branches on the cursor
+21:03079b39:0b
+
+# icon table -> 6-entry copy in the cave (shuffle_10_mod21_cave.S)
+21:0307a4d8:04950703
+
+lang:82:zh-cn:u"随机播放"
+lang:82:zh-tw:u"隨機播放"
+lang:82:en:u"Shuffle"
+lang:82:ja:u"シャッフル"
+lang:82:ko:u"셔플"
+lang:82:fr:u"Aléatoire"
+lang:82:de:u"Zufall"
+lang:82:it:u"Casuale"
+lang:82:es:u"Aleatorio"
+lang:82:pt:u"Aleatório"
+lang:82:ru:u"Случайно"
+lang:82:sv:u"Blanda"
+lang:82:th:u"สุ่ม"
+lang:82:pl:u"Losowo"
+lang:82:da:u"Bland"
+lang:82:nl:u"Willekeurig"
+lang:82:el:u"Τυχαία"
+lang:82:cs:u"Náhodně"
+lang:82:tr:u"Karışık"
+lang:82:he:u"ערבוב"
+lang:82:ar:u"عشوائي"

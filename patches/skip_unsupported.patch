@@ -1,0 +1,11 @@
+# Skip undecodable tracks silently; stop after 10 failures in a row.
+#
+# File-open / codec-init / early decode errors post message 0x55. Stock: the
+# music service (mod33 FUN_03082ba4) handles it only outside Now Playing; in
+# Now Playing, mod27 shows a "Format Not Supported!" popup for ~1 s, then skips.
+# The service skips through the same next-track routine (FUN_03082164(0)) and
+# stops playback (FUN_03082164(1)) when its failure counter (reset at each
+# natural end of track) reaches the playlist length, or in repeat-one modes.
+
+33:03082ef2:00bf                # handle 0x55 in Now Playing too (was: beq skip if window 3)
+33:03082f04:0a2845d200bf00bf    # stop after 10 consecutive failures: cmp r0,#10; bhs stop (was: N <= count)

@@ -1,0 +1,24 @@
+# Call sites redirected into the CFW blob. tools/build_blob.sh turns these into
+# rknano_fw.py patches (out/gen/cfw_hooks.patch).
+#
+#   MOD ADDR OP   SYMBOL         [TAG]
+#   bl    replace the instruction with "bl SYMBOL"
+#   b     replace it with "b.w SYMBOL"
+#   wrap  site must be a bl; it becomes "bl SYMBOL" and the original target is
+#         listed in out/gen/wraps.h as WRAP(return address, target, "TAG")
+#
+# Blob code exists only during a library refresh: only hook mod39/mod40 (and
+# mod05's refresh driver, see patches/recent_albums_10_mod05_driver.S).
+
+# Recent Albums: folder dates into song records, compact sort keys
+39 0307aade bl   cfw_hook_dir                    # folder record
+39 0307ae46 bl   cfw_hook_file                   # cue-track song record
+39 0307b086 bl   cfw_hook_file                   # song record
+
+# faster sort
+40 03079a48 bl   cfw_keyread                     # key read (top level)
+40 03079a62 bl   cfw_keyread                     # key read (grouped levels)
+40 03079810 b    cfw_cmp                         # comparator FUN_03079810
+
+# tag reading: per-format timing; cfw_scan hooks the file read during the walk
+39 0307af66 bl   cfw_tags                        # FUN_03071178(h, rec, ext)
