@@ -1,3 +1,3 @@
 # About screen: "Software: 1.7.0" -> "6.0.x" (bump the last digit per test build) (custom firmware; UTF-16 literal in mod32, 16-byte slot).
 # Only version string in the image.
-32:0307cf14:u"6.0.4"
+32:0307cf14:u"6.0.5"

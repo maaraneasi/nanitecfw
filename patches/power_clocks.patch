@@ -1,0 +1,32 @@
+# Power: lower the per-codec clock requests during playback.
+#
+# Clock manager (mod00): modules request rows of the table at 0x03076324
+# (36 rows x 0x1C: id, PLL, A core, A hclk, A pclk, B core, B bus; Hz) via
+# FUN_0306aee4(id) / release FUN_0306af30(id). FUN_0306ad00 SUMS the rows of all
+# active ids, raises each field to row 1 (96 MHz floor) and caps at row 35. The
+# music service picks the codec row at mod33 0x03080c24 (by codec type 0x03039e94)
+# on top of row 3 (48 MHz A fields) and row 4 (MusicInit, 48 MHz everywhere).
+#
+# Stock result: A core ~225-232 MHz, B (decode) core 348-450 MHz for every format,
+# WAV included; pause keeps it. No voltage scaling exists, so this saves dynamic
+# power only. New rows: A fields 0 (the A core gets the 96 MHz floor, same as the
+# UI), PLL 0 (solver picks it), B core as below (+48 from row 4). EQ rows 23-25
+# still add on top. APE / OGG high rates / DSD (rows 17, 18, 21, 22) unchanged.
+#
+#   format          B core stock -> new   (simulated solver output)
+#   MP3/WMA/AAC/WAV 348-450      -> 144   PLL 288, A 96
+#   OGG (rows 14-16) 448         -> 240   PLL 480, A 96
+#   FLAC/ALAC        448-450     -> 288   PLL 288, A 96
+
+0:030763b4:0000000000000000000000000000000000d8b80500d8b805  # row  5 MP3 <=128k/44.1k: was B 300, A 150
+0:030763d0:0000000000000000000000000000000000d8b80500d8b805  # row  6 MP3: was B 300, A 150
+0:030763ec:0000000000000000000000000000000000d8b80500d8b805  # row  7 WMA: was B 300, A 150
+0:03076408:0000000000000000000000000000000000d8b80500d8b805  # row  8 WMA: was B 300, A 150
+0:03076440:0000000000000000000000000000000000d8b80500d8b805  # row 10 AAC: was B 300, A 150
+0:0307645c:0000000000000000000000000000000000d8b80500d8b805  # row 11 AAC: was B 300, A 150
+0:03076424:0000000000000000000000000000000000d8b80500d8b805  # row  9 WAV: was B 450, A 148
+0:030764b0:0000000000000000000000000000000000b0710b00b0710b  # row 14 type 4 (OGG), low rates: was B 400, A 80
+0:030764cc:0000000000000000000000000000000000b0710b00b0710b  # row 15 type 4 (OGG): was B 400, A 80
+0:030764e8:0000000000000000000000000000000000b0710b00b0710b  # row 16 type 4 (OGG): was B 400, A 80
+0:0307653c:00000000000000000000000000000000001c4e0e001c4e0e  # row 19 FLAC: was B 400, A 100
+0:03076558:00000000000000000000000000000000001c4e0e001c4e0e  # row 20 ALAC: was B 480, A 200
