@@ -50,13 +50,16 @@ and Artists need data the stock refresh doesn't write.
 ```sh
 cp ~/Downloads/NANOV170.IMG .        # the official V1.7.0 image
 make check                           # confirms it is the expected stock file
-make DATE=20261101                   # writes out/NANOV170.IMG
+make                                 # writes out/NANOV170.IMG
 ```
 
 `DATE` is the build date stored in the image. The device boots whichever
 firmware copy has the **newest** date, so every image you flash must have a
-newer date than the one before it (the stock V1.7.0 image is dated 2026-08-24).
-Without `DATE` the build uses today's date.
+newer date than the one before it. The stock V1.7.0 image is dated 2026-08-24
+and the build defaults to one day later, `DATE=20260825`. Keep the date as
+close to stock as possible: a future official FiiO update with an older date
+than your custom build would be ignored. If you flash another custom build
+over this one, raise the date by a day each time (`make DATE=20260826`, ...).
 
 ## Install
 
@@ -72,8 +75,11 @@ To go back to the official firmware, build the stock code with a newer date and
 flash it the same way:
 
 ```sh
-make recovery DATE=20261102          # newer than any custom build you flashed
+make recovery                        # dated 20260826
 ```
+
+The default date is one day after the default build. If you flashed custom
+builds with later dates, pass a newer one: `make recovery DATE=...`.
 
 This writes `out/recovery/NANOV170.IMG`: FiiO's unmodified code with only the
 date changed, because the device would ignore the original file while a
